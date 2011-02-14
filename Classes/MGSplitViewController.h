@@ -10,8 +10,9 @@
 
 typedef enum _MGSplitViewDividerStyle {
 	// These names have been chosen to be conceptually similar to those of NSSplitView on Mac OS X.
-	MGSplitViewDividerStyleThin			= 0, // Thin divider, like UISplitViewController (default).
-	MGSplitViewDividerStylePaneSplitter	= 1  // Thick divider, drawn with a grey gradient and a grab-strip.
+	MGSplitViewDividerStyleNone         = -1, // No divider.
+	MGSplitViewDividerStyleThin			= 0,  // Thin divider, like UISplitViewController (default).
+	MGSplitViewDividerStylePaneSplitter	= 1   // Thick divider, drawn with a grey gradient and a grab-strip.
 } MGSplitViewDividerStyle;
 
 @class MGSplitDividerView;
@@ -20,6 +21,7 @@ typedef enum _MGSplitViewDividerStyle {
 	BOOL _showsMasterInPortrait;
 	BOOL _showsMasterInLandscape;
 	float _splitWidth;
+    float _cornerRadius;
 	id _delegate;
 	BOOL _vertical;
 	BOOL _masterBeforeDetail;
@@ -31,6 +33,7 @@ typedef enum _MGSplitViewDividerStyle {
 	float _splitPosition;
 	BOOL _reconfigurePopup;
 	MGSplitViewDividerStyle _dividerStyle; // Meta-setting which configures several aspects of appearance and behaviour.
+    BOOL _viewDidLoadHasBeenCalled;
 }
 
 @property (nonatomic, assign) IBOutlet id <MGSplitViewControllerDelegate> delegate;
@@ -61,13 +64,13 @@ typedef enum _MGSplitViewDividerStyle {
 - (BOOL)isShowingMaster;
 - (void)setSplitPosition:(float)posn animated:(BOOL)animate; // Allows for animation of splitPosition changes. The property's regular setter is not animated.
 /* Note:	splitPosition is the width (in a left/right split, or height in a top/bottom split) of the master view.
-			It is relative to the appropriate side of the splitView, which can be any of the four sides depending on the values in isMasterBeforeDetail and isVertical:
-				isVertical = YES, isMasterBeforeDetail = YES: splitPosition is relative to the LEFT edge. (Default)
-				isVertical = YES, isMasterBeforeDetail = NO: splitPosition is relative to the RIGHT edge.
- 				isVertical = NO, isMasterBeforeDetail = YES: splitPosition is relative to the TOP edge.
- 				isVertical = NO, isMasterBeforeDetail = NO: splitPosition is relative to the BOTTOM edge.
-
-			This implementation was chosen so you don't need to recalculate equivalent splitPositions if the user toggles masterBeforeDetail themselves.
+ It is relative to the appropriate side of the splitView, which can be any of the four sides depending on the values in isMasterBeforeDetail and isVertical:
+ isVertical = YES, isMasterBeforeDetail = YES: splitPosition is relative to the LEFT edge. (Default)
+ isVertical = YES, isMasterBeforeDetail = NO: splitPosition is relative to the RIGHT edge.
+ isVertical = NO, isMasterBeforeDetail = YES: splitPosition is relative to the TOP edge.
+ isVertical = NO, isMasterBeforeDetail = NO: splitPosition is relative to the BOTTOM edge.
+ 
+ This implementation was chosen so you don't need to recalculate equivalent splitPositions if the user toggles masterBeforeDetail themselves.
  */
 - (void)setDividerStyle:(MGSplitViewDividerStyle)newStyle animated:(BOOL)animate; // Allows for animation of dividerStyle changes. The property's regular setter is not animated.
 - (NSArray *)cornerViews;
@@ -76,8 +79,8 @@ typedef enum _MGSplitViewDividerStyle {
  The first view is the "leading" corners (top edge of screen for left/right split, left edge of screen for top/bottom split).
  The second view is the "trailing" corners (bottom edge of screen for left/right split, right edge of screen for top/bottom split).
  Do NOT modify them, except to:
-	1. Change their .cornerBackgroundColor
-	2. Change their .cornerRadius
+ 1. Change their .cornerBackgroundColor
+ 2. Change their .cornerRadius
  */
 
 @end
