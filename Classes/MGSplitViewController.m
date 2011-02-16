@@ -323,7 +323,7 @@
 				theView.frame = masterRect;
 				if (!theView.superview) {
 					[controller viewWillAppear:NO];
-					[self.view addSubview:theView];
+					[self.view insertSubview:theView atIndex:0];
 					[controller viewDidAppear:NO];
 				}
 			}
@@ -333,7 +333,7 @@
 		theView = _dividerView;
 		theView.frame = dividerRect;
 		if (!theView.superview) {
-			[self.view addSubview:theView];
+			[self.view insertSubview:theView aboveSubview:self.masterViewController.view];
 		}
 		
 		// Position detail.
@@ -347,7 +347,7 @@
 					[self.view insertSubview:theView aboveSubview:self.masterViewController.view];
 					[controller viewDidAppear:NO];
 				} else {
-					[self.view bringSubviewToFront:theView];
+					[self.view insertSubview:theView aboveSubview:self.masterViewController.view];
 				}
 			}
 		}
@@ -398,7 +398,8 @@
 				theView.frame = masterRect;
 				if (!theView.superview) {
 					[controller viewWillAppear:NO];
-					[self.view addSubview:theView];
+					[self.view insertSubview:theView atIndex:0];
+
 					[controller viewDidAppear:NO];
 				}
 			}
@@ -408,7 +409,8 @@
 		theView = _dividerView;
 		theView.frame = dividerRect;
 		if (!theView.superview) {
-			[self.view addSubview:theView];
+			[self.view insertSubview:theView aboveSubview:self.masterViewController.view];
+
 		}
 		
 		// Position detail.
@@ -420,7 +422,7 @@
 				if (!theView.superview) {
 					[self.view insertSubview:theView aboveSubview:self.masterViewController.view];
 				} else {
-					[self.view bringSubviewToFront:theView];
+					[self.view insertSubview:theView aboveSubview:self.masterViewController.view];
 				}
 			}
 		}
