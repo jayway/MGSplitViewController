@@ -9,3 +9,5 @@ Documentation/*
 .DS_Store
 test-reports/*
 *.ipa
+xcuserdata
+*.xcworkspace
