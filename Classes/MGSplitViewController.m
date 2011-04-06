@@ -1040,7 +1040,7 @@
 	} else {
 		[_viewControllers addObject:detail];
 	}
-	
+	[detail setValue:self forKey:@"_parentViewController"];
 	if (changed) {
 		[self layoutSubviews];
 	}
